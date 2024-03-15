@@ -1,32 +1,25 @@
+import css from './Contact.module.css';
+import { FaUser, FaPhoneAlt } from 'react-icons/fa';
+import { deleteContact } from '../../redux/contactsSlice';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contactsSlice'; // Assuming this is the correct path
 
-import { FaUser, FaPhone, FaTrash } from 'react-icons/fa';
-
-const Contact = ({ id, name, number }) => {
+const Contact = ({ contact: { name, number, id } }) => {
   const dispatch = useDispatch();
-
-  const handleDelete = () => {
-    // Dispatch the deleteContact action with the contact id
-    dispatch(deleteContact(id));
-  };
-
+  const handleDelete = () => dispatch(deleteContact(id));
   return (
-    <li>
-      <div>
-        <div>
-          <FaUser />
-          <span>{name}</span>
-        </div>
-        <div>
-          <FaPhone />
-          <span>{number}</span>
-        </div>
+    <div className={css.item}>
+      <div className={css.info}>
+        <p className={css.user}>
+          <FaUser className={css.icon} /> {name}
+        </p>
+        <p className={css.number}>
+          <FaPhoneAlt className={css.icon} /> {number}
+        </p>
       </div>
-      <button onClick={handleDelete}>
-        <FaTrash /> Delete
+      <button onClick={handleDelete} className={css.button}>
+        Delete
       </button>
-    </li>
+    </div>
   );
 };
 
