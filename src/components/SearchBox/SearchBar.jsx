@@ -3,11 +3,10 @@ import css from './SearchBar.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFilter } from '../../redux/filtersSlice';
 
-
 const SearchBox = () => {
   const dispatch = useDispatch();
   const handleChange = e => dispatch(changeFilter(e.target.value));
-  const value = useSelector(state => state.filter);
+  const filter = useSelector(state => state.filter.value); // Assuming filter is stored as an object with a 'value' property
   const id = useId();
 
   return (
@@ -18,7 +17,7 @@ const SearchBox = () => {
       <input
         type="text"
         id={id}
-        value={value}
+        value={filter} // Make sure filter is a string
         onChange={handleChange}
         className={css.input}
       />

@@ -1,5 +1,5 @@
 import ContactForm from './components/ContactForm/Contactform';
-import SearchBar from './components/SearchBar/SearchBar';
+import SearchBar from './components/SearchBox/SearchBar';
 import ContactList from './components/ContactList/ContactList';
 // import css from "./App.module.css";
 
