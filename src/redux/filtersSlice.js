@@ -1,19 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-const filterInitialState = { name: '' };
-
-const filterSlice = createSlice({
-    name: 'filter',
-    initialState: filterInitialState,
-    reducers: {
-        changeFilter(state, action) {
-            state.name = action.payload;
-        }
-    }
+const filtersSlice = createSlice({
+  name: 'filters',
+  initialState: {
+    name: '',
+  },
+  reducers: {
+    changeFilter(state, action) {
+      state.name = action.payload;
+    },
+  },
 });
 
-export const { changeFilter } = filterSlice.actions;
-export const filterReducer = filterSlice.reducer;
+// експорт генератора екшенів
+export const { changeFilter } = filtersSlice.actions;
 
-// Selector
-export const selectFilter = state => state.filter.name;
+// експорт редюсера
+export default filtersSlice.reducer;
+
+// експорт селектора
+export const selectNameFilter = state => state.filters.name;

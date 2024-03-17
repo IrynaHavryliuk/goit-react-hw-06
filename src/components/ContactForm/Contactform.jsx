@@ -1,54 +1,55 @@
-import css from './ContactForm.module.css';
 import { useId } from 'react';
+import css from './ContactForm.module.css';
+
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { nanoid } from 'nanoid';
+
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
 
-const validation = Yup.object().shape({
-  name: Yup.string().min(3, 'Too short!').max(50, 'Too long!').required('Required!'),
-  number: Yup.string().min(3, 'Too short!').max(50, 'Too long!').required('Required!'),
+const ContactSchema = Yup.object().shape({
+  name: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required field'),
+  number: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required field'),
 });
 
 const ContactForm = () => {
+  const nameId = useId();
+  const numberId = useId();
+
   const dispatch = useDispatch();
-
-  const nameField = useId();
-  const numberField = useId();
-
-  const handleSubmit = (values, actions) => {
-    dispatch(addContact({ id: nanoid(5), ...values }));
-    actions.resetForm();
-  };
 
   return (
     <Formik
-      initialValues={{
-        name: '',
-        number: '',
+      initialValues={{ id: '', name: '', number: '' }}
+      onSubmit={(values, actions) => {
+        const newContact = {
+          id: '',
+          name: values.name,
+          number: values.number,
+        };
+        dispatch(addContact(newContact));
+        actions.resetForm();
       }}
-      onSubmit={handleSubmit}
-      validationSchema={validation}
+      validationSchema={ContactSchema}
     >
       <Form className={css.form}>
-        <div className={css.item}>
-          <label htmlFor={nameField} className={css.text}>
+        <div className={css.field}>
+          <label className={css.label} htmlFor={nameId}>
             Name
           </label>
-          <Field type="text" name="name" id={nameField} className={css.name} />
-          <ErrorMessage name="name" component="span" />
+          <Field type="text" name="name" id={nameId} />
+          <ErrorMessage className={css.error} name="name" component="p" />
         </div>
 
-        <div className={css.item}>
-          <label htmlFor={numberField} className={css.text}>
+        <div className={css.field}>
+          <label className={css.label} htmlFor={numberId}>
             Number
           </label>
-          <Field type="text" name="number" id={numberField} className={css.name} />
-          <ErrorMessage name="number" component="span" />
+          <Field type="text" name="number" id={numberId} />
+          <ErrorMessage className={css.error} name="number" component="p" />
         </div>
 
-        <button type="submit" className={css.button}>
+        <button className={css.button} type="submit">
           Add contact
         </button>
       </Form>
